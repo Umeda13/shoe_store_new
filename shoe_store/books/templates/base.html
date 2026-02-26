@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ООО "Обувь"{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="{% static 'img/logo.png' %}" alt="Логотип ООО Обувь" class="logo">
+            <h1>{{ page_title|default:"ООО Обувь" }}</h1>
+        </div>
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                <!-- ФИО в правом верхнем углу -->
+                {{ user.fio|default:user.username }} | {{ user.get_role_display }}
+                <!-- Кнопка ВЫХОД для возврата на страницу входа -->
+                <a href="{% url 'books:logout' %}" class="btn btn-accent">Выход</a>
+            {% else %}
+                <a href="{% url 'books:login' %}" class="btn btn-accent">Вход</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Навигация только для авторизованных -->
+    {% if user.is_authenticated %}
+    <nav class="nav-menu">
+        <a href="{% url 'books:product_list' %}">Товары</a>
+
+        <!-- Кнопка ЗАКАЗЫ только для Менеджера и Админа -->
+        {% if user.role == 'manager' or user.role == 'admin' %}
+        <a href="{% url 'books:order_list' %}">Заказы</a>
+        {% endif %}
+
+        <!-- Кнопки CRUD только для Админа -->
+        {% if user.role == 'admin' %}
+        <a href="{% url 'books:product_create' %}">Добавить товар</a>
+        <a href="{% url 'books:order_create' %}">Добавить заказ</a>
+        {% endif %}
+    </nav>
+    {% endif %}
+
+    <main class="table-container">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

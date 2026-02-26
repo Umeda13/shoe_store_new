@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Список заказов{% endblock %}
+
+{% block content %}
+<!-- Панель управления для Менеджера и Админа -->
+<div class="controls">
+    <input type="text" id="search" placeholder="Поиск заказов..."
+           value="{{ search_value }}" onkeyup="realtimeOrderSearch()">
+
+    <select id="status" onchange="realtimeOrderSearch()">
+        <option value="">Все статусы</option>
+        {% for value, label in statuses %}
+        <option value="{{ value }}" {% if status == value %}selected{% endif %}>
+            {{ label }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select id="sort" onchange="realtimeOrderSearch()">
+        <option value="address-asc" {% if sort_by == 'address-asc' %}selected{% endif %}>По адресу (возр.)</option>
+        <option value="address-desc" {% if sort_by == 'address-desc' %}selected{% endif %}>По адресу (убыв.)</option>
+        <option value="date-asc" {% if sort_by == 'date-asc' %}selected{% endif %}>По дате (возр.)</option>
+        <option value="date-desc" {% if sort_by == 'date-desc' %}selected{% endif %}>По дате (убыв.)</option>
+    </select>
+
+    <!-- Кнопка добавления ТОЛЬКО для Админа -->
+    {% if user_role == 'admin' %}
+    <a href="{% url 'books:order_create' %}" class="btn">Добавить заказ</a>
+    {% endif %}
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Статус</th>
+            <th>Пункт выдачи</th>
+            <th>Дата заказа</th>
+            <th>Дата доставки</th>
+            <th>Клиент</th>
+            <th>Код</th>
+            <!-- Колонка действий ТОЛЬКО для Админа -->
+            {% if user_role == 'admin' %}<th>Действия</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>{{ order.delivery_address }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.delivery_date }}</td>
+            <td>{{ order.client.fio|default:"-" }}</td>
+            <td>{{ order.code }}</td>
+
+            <!-- Кнопка удаления ТОЛЬКО для Админа -->
+            {% if user_role == 'admin' %}
+            <td>
+                <a href="{% url 'books:order_delete' order.pk %}"
+                   onclick="return confirm('Удалить заказ?')" class="btn btn-danger"></a>
+            </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="{% if user_role == 'admin' %}10{% else %}9{% endif %}" style="text-align: center;">
+                Заказы не найдены
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function realtimeOrderSearch() {
+    const search = document.getElementById('search').value;
+    const status = document.getElementById('status').value;
+    const sort = document.getElementById('sort').value;
+
+    const params = new URLSearchParams({
+        search: search,
+        status: status,
+        sort: sort
+    });
+
+    window.history.replaceState({}, '', '?' + params);
+    location.reload();
+}
+</script>
+{% endblock %}
+

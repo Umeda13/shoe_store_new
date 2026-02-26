@@ -1,0 +1,170 @@
+/* static/css/style.css */
+/* 🔄 Руководство по стилю ДЭ */
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Times New Roman', Times, serif;  /* 🔄 Требуемый шрифт */
+    background-color: #FFFFFF;  /* 🔄 Основной фон */
+    margin: 0; padding: 0;
+    color: #000000;
+    line-height: 1.6;
+}
+
+/* 🔄 Заголовок с логотипом */
+.header {
+    background-color: #7FFF00;  /* 🔄 Доп. фон */
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #00FA9A;  /* 🔄 Акцент */
+}
+
+.logo {
+    max-height: 60px;
+    width: auto;  /* 🔄 Не искажать */
+}
+
+.user-info {
+    color: #000000;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* 🔄 Кнопки */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Times New Roman', serif;
+    border-radius: 3px;
+}
+
+.btn-accent {
+    background-color: #00FA9A;  /* 🔄 Акцент */
+    color: #000000;
+}
+
+.btn-accent:hover { opacity: 0.8; }
+.btn-danger { background-color: #dc3545; color: #fff; }
+.btn-warning { background-color: #ffc107; color: #000; }
+
+/* 🔄 Панель управления */
+.controls {
+    background-color: #7FFF00;
+    padding: 15px 20px;
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.controls input, .controls select {
+    padding: 8px 12px;
+    font-family: 'Times New Roman', serif;
+    border: 1px solid #000;
+    border-radius: 3px;
+}
+
+/* 🔄 Таблицы */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #7FFF00;
+    font-weight: bold;
+}
+
+/* 🔄 Подсветка строк */
+.row-discount-high {
+    background-color: #2E8B57 !important;  /* 🔄 Скидка >15% */
+}
+
+.row-out-of-stock {
+    background-color: lightblue !important;  /* 🔄 Нет на складе */
+}
+
+/* 🔄 Цены */
+.price-old {
+    text-decoration: line-through;  /* 🔄 Зачеркнутая */
+    color: red;  /* 🔄 Красный */
+    margin-right: 10px;
+}
+
+.price-new {
+    color: #000;  /* 🔄 Черный */
+    font-weight: bold;
+}
+
+/* 🔄 Изображения */
+.product-image {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* 🔄 Формы */
+.form-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Times New Roman', serif;
+    border: 1px solid #000;
+    border-radius: 3px;
+}
+
+/* 🔄 Сообщения */
+.messages {
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.message {
+    padding: 15px 25px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+.message-success { background: #d4edda; color: #155724; }
+.message-error { background: #f8d7da; color: #721c24; }
+.message-warning { background: #fff3cd; color: #856404; }
+
+/* 🔄 Страница входа */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #000;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.login-container img { max-width: 150px; margin-bottom: 20px; }
+

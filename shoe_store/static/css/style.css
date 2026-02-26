@@ -1,0 +1,301 @@
+/* static/css/style.css */
+/* Руководство по стилю - Прил_3 */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    color: #000000;
+    line-height: 1.6;
+}
+
+/* Заголовок страницы */
+.header {
+    background-color: #7FFF00;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #00FA9A;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.logo {
+    max-height: 60px;
+    width: auto;
+}
+
+.user-info {
+    color: #000000;
+    font-weight: bold;
+    text-align: right;
+}
+
+.user-info a {
+    color: #000000;
+    text-decoration: none;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    border-radius: 3px;
+    background-color: #00FA9A;
+    color: #000000;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-accent {
+    background-color: #00FA9A;
+    color: #000000;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+/* Панель управления */
+.controls {
+    background-color: #7FFF00;
+    padding: 15px 20px;
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.controls input,
+.controls select {
+    padding: 8px 12px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+}
+
+.controls input {
+    min-width: 250px;
+}
+
+/* Таблицы */
+.table-container {
+    margin: 20px;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid #000000;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.data-table th {
+    background-color: #7FFF00;
+    font-weight: bold;
+}
+
+.data-table tr:hover {
+    opacity: 0.9;
+}
+
+/* Подсветка строк */
+.row-discount-high {
+    background-color: #2E8B57 !important;
+}
+
+.row-out-of-stock {
+    background-color: lightblue !important;
+}
+
+/* Цены */
+.price-old {
+    text-decoration: line-through;
+    color: red;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.price-new {
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Изображения в таблице */
+.product-image {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Формы */
+.form-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Сообщения */
+.messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.message {
+    padding: 15px 25px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #000000;
+}
+
+.message-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.message-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.message-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Страница входа */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.login-container img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+.guest-link {
+    margin-top: 20px;
+    display: block;
+    color: #000000;
+    text-decoration: underline;
+}
+
+/* Навигация */
+.nav-menu {
+    background-color: #7FFF00;
+    padding: 10px 20px;
+}
+
+.nav-menu a {
+    color: #000000;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.nav-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls input,
+    .controls select {
+        width: 100%;
+    }
+}

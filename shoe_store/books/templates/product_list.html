@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Список товаров{% endblock %}
+
+{% block content %}
+<!-- 🔧 Панель управления ТОЛЬКО для авторизованных (не для гостя) -->
+<div class="controls">
+    {% if user_role != 'guest' %}
+    <input type="text" id="search" placeholder="Поиск товаров..."
+           value="{{ search_value }}" onkeyup="realtimeSearch()">
+
+    <select id="supplier" onchange="realtimeSearch()">
+        <option value="">Все поставщики</option>
+        {% for s in suppliers %}
+        <option value="{{ s.id }}" {% if supplier_id == s.id|stringformat:"s" %}selected{% endif %}>
+            {{ s.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select id="sort" onchange="realtimeSearch()">
+        <option value="name-asc" {% if sort_by == 'name-asc' %}selected{% endif %}>По названию (А-Я)</option>
+        <option value="stock-asc" {% if sort_by == 'stock-asc' %}selected{% endif %}>По количеству (возр.)</option>
+        <option value="stock-desc" {% if sort_by == 'stock-desc' %}selected{% endif %}>По количеству (убыв.)</option>
+    </select>
+
+    <!-- Кнопка добавления ТОЛЬКО для Админа -->
+    {% if user_role == 'admin' %}
+    <a href="{% url 'books:product_create' %}" class="btn">Добавить товар</a>
+    {% endif %}
+    {% else %}
+    <!-- Сообщение для гостя -->
+    <p style="margin: 0;">Режим гостя: поиск и фильтрация недоступны</p>
+    {% endif %}
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Фото</th>
+            <th>Артикул</th>
+            <th>Наименование</th>
+            <th>Категория</th>
+            <th>Производитель</th>
+            <th>Поставщик</th>
+            <th>Цена</th>
+            <th>Скидка</th>
+            <th>На складе</th>
+            <!-- Колонка действий ТОЛЬКО для Админа -->
+            {% if user_role == 'admin' %}<th>Действия</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <!-- Подсветка скидки >15% и нет на складе -->
+        <tr class="
+            {% if product.discount > 15 %}row-discount-high{% endif %}
+            {% if product.stock_quantity == 0 %}row-out-of-stock{% endif %}
+        ">
+            <td>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" width="100">
+                {% else %}
+                    <img src="{% static 'img/placeholder.png' %}" alt="Нет фото" class="product-image" width="100">
+                {% endif %}
+            </td>
+            <td>{{ product.article }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.manufacturer }}</td>
+            <td>{{ product.supplier }}</td>
+            <td>
+                <!-- Зачеркнутая цена при скидке -->
+                {% if product.discount > 0 %}
+                <span class="price-old">{{ product.price }} ₽</span>
+                <span class="price-new">{{ product.get_final_price }} ₽</span>
+                {% else %}
+                {{ product.price }} ₽
+                {% endif %}
+            </td>
+            <td>{{ product.discount }}%</td>
+            <td>{{ product.stock_quantity }} {{ product.unit }}</td>
+
+            <!-- Кнопки редактирования/удаления ТОЛЬКО для Админа -->
+            {% if user_role == 'admin' %}
+            <td>
+                <a href="{% url 'books:product_update' product.pk %}" class="btn"></a>
+                <a href="{% url 'books:product_delete' product.pk %}"
+                   onclick="return confirm('Удалить?')" class="btn btn-danger"></a>
+            </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="{% if user_role == 'admin' %}10{% else %}9{% endif %}" style="text-align: center;">
+                Товары не найдены
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function realtimeSearch() {
+    const search = document.getElementById('search').value;
+    const supplier = document.getElementById('supplier').value;
+    const sort = document.getElementById('sort').value;
+
+    const params = new URLSearchParams({
+        search: search,
+        supplier: supplier,
+        sort: sort
+    });
+
+    window.history.replaceState({}, '', '?' + params);
+    location.reload();
+}
+</script>
+{% endblock %}
+
